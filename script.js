@@ -10,7 +10,7 @@ const REVIEWS_KEY = STORAGE+"Reviews";
 const PLACES_KEY = STORAGE+"FamousPlaces";
 const SETTINGS_KEY = STORAGE+"Settings";
 const DEFAULT_CONTACTS = {call:"918462834667", whatsapp:"918462834667", sms:"918462834667"};
-const DEFAULT_CARS = [{id:"ertiga",name:"Maruti Suzuki Ertiga",seats:7,ac:4500,nonac:4000,km:15,photos:["images/download.jpg"]}];
+const DEFAULT_CARS = [{id:"ertiga",name:"Maruti Suzuki Ertiga",seats:7,ac:4500,nonac:4000,km:15,photos:["download.jpg"]}];
 const DEFAULT_ROUTES = [
   {id:"r1",name:"Ujjain → Omkareshwar",oneWay:2200,twoWay:4000,extra:200},
   {id:"r2",name:"Ujjain → Indore",oneWay:1100,twoWay:0,extra:200},
