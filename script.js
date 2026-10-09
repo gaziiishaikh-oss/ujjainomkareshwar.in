@@ -19,14 +19,14 @@ const DEFAULT_ROUTES = [
   {id:"r5",name:"Ujjain → Maheshwar",oneWay:0,twoWay:0,extra:200}
 ];
 const DEFAULT_PLACES = [
-  {id:"p1",name:"Mahakaleshwar Jyotirlinga",location:"Ujjain",description:"Ujjain's famous Mahakaleshwar Jyotirlinga and one of the city's most important pilgrimage destinations.",photo:"images/ujj 1.jpg"},
-  {id:"p2",name:"Harsiddhi Mata Temple",location:"Ujjain",description:"A revered Shakti Peeth and an important spiritual place in Ujjain.",photo:"images/ujjain harisiddhi temple.jpg"},
-  {id:"p3",name:"Ram Ghat",location:"Ujjain",description:"Historic ghat on the Shipra River, known for its spiritual atmosphere and evening views.",photo:"images/ramghatr ujjain.jpg"},
-  {id:"p4",name:"Bade Ganesh Ji Temple",location:"Ujjain",description:"A popular Lord Ganesha temple near the Mahakal area.",photo:"images/bade-ganeshji.jpg"},
-  {id:"p5",name:"Gopal Mandir",location:"Ujjain",description:"A well-known historic temple in the heart of Ujjain.",photo:"images/Gopal-Mandir ujjain(1).webp"},
-  {id:"p6",name:"Ujjain Tower Chowk",location:"Ujjain",description:"A recognizable city landmark and busy central area of Ujjain.",photo:"images/tower ujjain1(1).webp"},
-  {id:"p7",name:"Ujjain Tower – Night View",location:"Ujjain",description:"A beautiful evening view of Ujjain's iconic tower.",photo:"images/tower ujjain1(1).webp"},
-  {id:"p8",name:"Shipra River Ghats",location:"Ujjain",description:"Riverside atmosphere and traditional Ujjain views along the Shipra River.",photo:"images/ujjain3(1).jpg"}
+  {id:"p1",name:"Mahakaleshwar Jyotirlinga",location:"Ujjain",description:"Ujjain's famous Mahakaleshwar Jyotirlinga and one of the city's most important pilgrimage destinations.",photo:"ujj 1.jpg"},
+  {id:"p2",name:"Harsiddhi Mata Temple",location:"Ujjain",description:"A revered Shakti Peeth and an important spiritual place in Ujjain.",photo:"ujjain harisiddhi temple.jpg"},
+  {id:"p3",name:"Ram Ghat",location:"Ujjain",description:"Historic ghat on the Shipra River, known for its spiritual atmosphere and evening views.",photo:"ramghatr ujjain.jpg"},
+  {id:"p4",name:"Bade Ganesh Ji Temple",location:"Ujjain",description:"A popular Lord Ganesha temple near the Mahakal area.",photo:"bade-ganeshji.jpg"},
+  {id:"p5",name:"Gopal Mandir",location:"Ujjain",description:"A well-known historic temple in the heart of Ujjain.",photo:"Gopal-Mandir ujjain(1).webp"},
+  {id:"p6",name:"Ujjain Tower Chowk",location:"Ujjain",description:"A recognizable city landmark and busy central area of Ujjain.",photo:"tower ujjain1(1).webp"},
+  {id:"p7",name:"Ujjain Tower – Night View",location:"Ujjain",description:"A beautiful evening view of Ujjain's iconic tower.",photo:"tower ujjain1(1).webp"},
+  {id:"p8",name:"Shipra River Ghats",location:"Ujjain",description:"Riverside atmosphere and traditional Ujjain views along the Shipra River.",photo:"ujjain3(1).jpg"}
 ];
 const DEFAULT_REVIEWS = [];
 const DEFAULT_SETTINGS = {siteName:"Ujjain Omkareshwar",advance:500,address:"Near Mahakal Mandir, Galaxy Hotel, Ujjain, Madhya Pradesh",heroHeading:"Comfortable Journey. Peaceful Darshan."};
