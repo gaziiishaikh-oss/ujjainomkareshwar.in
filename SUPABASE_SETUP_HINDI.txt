@@ -1,0 +1,33 @@
+UJJAIN OMKARESHWAR TRAVELLER — ROUND TRIP + SUPABASE SETUP
+
+ROUND TRIP UPDATE
+- Booking form now has Journey Type: One Way / Round Trip.
+- Route fare is taken from oneWay or twoWay, and AC extra is added to either fare.
+- Default Ujjain → Omkareshwar: One Way ₹2,200, Round Trip ₹4,000, AC extra ₹200.
+- Routes with twoWay = 0 show “On Request” for Round Trip.
+
+IMPORTANT ABOUT SUPABASE
+This ZIP includes a Supabase starter schema, but the current site JavaScript is NOT yet connected to the cloud. Running SQL creates database tables and Storage bucket; it does not by itself make Admin changes sync to all customers. The JavaScript connection and Supabase Auth login must also be wired and tested before publishing as a live shared system. The current demo admin-config.js login is NOT secure for a public production site.
+
+SETUP STEP 1 — BACKUP
+Keep a copy of your currently live GitHub repository before replacing files.
+
+SETUP STEP 2 — RUN SCHEMA
+1. Open Supabase Dashboard → your ujjainomkareshwar.in project → SQL Editor.
+2. Click New query.
+3. Open this ZIP's supabase/schema.sql in Notepad/VS Code and copy all its contents.
+4. Paste into SQL Editor and click Run once.
+5. Check the Results area for errors. If any error appears, stop and share a screenshot; do not run random fixes.
+
+SETUP STEP 3 — CREATE ADMIN AUTH USER
+After the schema runs, open Supabase → Authentication → Users → Add user, create the owner account with your intended email and a new strong password. Do not share the password in chat.
+Then copy that user's UUID. In SQL Editor run this query, replacing only the UUID:
+
+insert into public.admin_users(user_id, active)
+values ('PASTE-AUTH-USER-UUID-HERE', true)
+on conflict (user_id) do update set active = true;
+
+Do not use the service_role/secret key in browser files. Only the publishable key is suitable for frontend code, with RLS policies enabled.
+
+SETUP STEP 4 — WEBSITE CONNECTION
+This ZIP does not yet perform the complete cloud sync. Do not expect public/customer pages to change merely after running the SQL. The next code update must connect the site_data rows, booking inserts/admin reads, Storage uploads, and Supabase Auth sign-in/reset to the website's JavaScript, then test each flow before pushing to GitHub Pages.
