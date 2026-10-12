@@ -20,3 +20,8 @@ V24 PREMIUM THEME UPDATE
 - Default call / WhatsApp / SMS number updated to 9827430197.
 - This package is still a static/localStorage version: Supabase shared database and Storage are NOT connected yet.
 - Admin credentials in admin-config.js are demo-only and not secure for public production use.
+
+IMAGE FILE UPLOAD NOTE (GITHUB ROOT)
+- Keep each photo as a separate file in the same repository level as index.html (do not put photos inside an images folder).
+- The website now uses root-level file paths such as `ujj 1.jpg` and `omk1(2).jpg`.
+- If your photos are already in the GitHub repository root, replace index.html, script.js, and premium-theme.css with the updated versions. The code also corrects older saved `...` paths when rendering admin-managed photos.

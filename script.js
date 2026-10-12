@@ -10,7 +10,7 @@ const REVIEWS_KEY = STORAGE+"Reviews";
 const PLACES_KEY = STORAGE+"FamousPlaces";
 const SETTINGS_KEY = STORAGE+"Settings";
 const DEFAULT_CONTACTS = {call:"919827430197", whatsapp:"919827430197", sms:"919827430197"};
-const DEFAULT_CARS = [{id:"ertiga",name:"Maruti Suzuki Ertiga",seats:7,ac:4500,nonac:4000,km:15,photos:["images/download.jpg"]}];
+const DEFAULT_CARS = [{id:"ertiga",name:"Maruti Suzuki Ertiga",seats:7,ac:4500,nonac:4000,km:15,photos:["download.jpg"]}];
 const DEFAULT_ROUTES = [
   {id:"r1",name:"Ujjain → Omkareshwar",oneWay:2200,twoWay:4000,extra:200},
   {id:"r2",name:"Ujjain → Indore",oneWay:1100,twoWay:0,extra:200},
@@ -19,14 +19,14 @@ const DEFAULT_ROUTES = [
   {id:"r5",name:"Ujjain → Maheshwar",oneWay:0,twoWay:0,extra:200}
 ];
 const DEFAULT_PLACES = [
-  {id:"p1",name:"Mahakaleshwar Jyotirlinga",location:"Ujjain",description:"Ujjain's famous Mahakaleshwar Jyotirlinga and one of the city's most important pilgrimage destinations.",photo:"images/ujj 1.jpg"},
-  {id:"p2",name:"Harsiddhi Mata Temple",location:"Ujjain",description:"A revered Shakti Peeth and an important spiritual place in Ujjain.",photo:"images/ujjain harisiddhi temple.jpg"},
-  {id:"p3",name:"Ram Ghat",location:"Ujjain",description:"Historic ghat on the Shipra River, known for its spiritual atmosphere and evening views.",photo:"images/ramghatr ujjain.jpg"},
-  {id:"p4",name:"Bade Ganesh Ji Temple",location:"Ujjain",description:"A popular Lord Ganesha temple near the Mahakal area.",photo:"images/bade-ganeshji.jpg"},
-  {id:"p5",name:"Gopal Mandir",location:"Ujjain",description:"A well-known historic temple in the heart of Ujjain.",photo:"images/Gopal-Mandir ujjain(1).webp"},
-  {id:"p6",name:"Ujjain Tower Chowk",location:"Ujjain",description:"A recognizable city landmark and busy central area of Ujjain.",photo:"images/tower ujjain1(1).webp"},
-  {id:"p7",name:"Ujjain Tower – Night View",location:"Ujjain",description:"A beautiful evening view of Ujjain's iconic tower.",photo:"images/tower ujjain1(1).webp"},
-  {id:"p8",name:"Shipra River Ghats",location:"Ujjain",description:"Riverside atmosphere and traditional Ujjain views along the Shipra River.",photo:"images/ujjain3(1).jpg"}
+  {id:"p1",name:"Mahakaleshwar Jyotirlinga",location:"Ujjain",description:"Ujjain's famous Mahakaleshwar Jyotirlinga and one of the city's most important pilgrimage destinations.",photo:"ujj 1.jpg"},
+  {id:"p2",name:"Harsiddhi Mata Temple",location:"Ujjain",description:"A revered Shakti Peeth and an important spiritual place in Ujjain.",photo:"ujjain harisiddhi temple.jpg"},
+  {id:"p3",name:"Ram Ghat",location:"Ujjain",description:"Historic ghat on the Shipra River, known for its spiritual atmosphere and evening views.",photo:"ramghatr ujjain.jpg"},
+  {id:"p4",name:"Bade Ganesh Ji Temple",location:"Ujjain",description:"A popular Lord Ganesha temple near the Mahakal area.",photo:"bade-ganeshji.jpg"},
+  {id:"p5",name:"Gopal Mandir",location:"Ujjain",description:"A well-known historic temple in the heart of Ujjain.",photo:"Gopal-Mandir ujjain(1).webp"},
+  {id:"p6",name:"Ujjain Tower Chowk",location:"Ujjain",description:"A recognizable city landmark and busy central area of Ujjain.",photo:"tower ujjain1(1).webp"},
+  {id:"p7",name:"Ujjain Tower – Night View",location:"Ujjain",description:"A beautiful evening view of Ujjain's iconic tower.",photo:"tower ujjain1(1).webp"},
+  {id:"p8",name:"Shipra River Ghats",location:"Ujjain",description:"Riverside atmosphere and traditional Ujjain views along the Shipra River.",photo:"ujjain3(1).jpg"}
 ];
 const DEFAULT_REVIEWS = [];
 const DEFAULT_SETTINGS = {siteName:"Ujjain Omkareshwar",advance:500,address:"Near Mahakal Mandir, Galaxy Hotel, Ujjain, Madhya Pradesh",heroHeading:"Comfortable Journey. Peaceful Darshan."};
@@ -46,14 +46,32 @@ const saveReviews=()=>localStorage.setItem(REVIEWS_KEY,JSON.stringify(reviews));
 const savePlaces=()=>localStorage.setItem(PLACES_KEY,JSON.stringify(places));
 const saveSettings=()=>localStorage.setItem(SETTINGS_KEY,JSON.stringify(settings));
 const esc=s=>String(s??"").replace(/[&<>'"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[m]));
+// Normalize legacy image paths and keep separately uploaded root-level image files working.
+function imagePath(value){
+  const path=String(value||"").trim();
+  if(!path)return "";
+  if(/^(data:|https?:|blob:)/i.test(path))return path;
+  const rootPath=path.replace(/^\.\/?images\//i,"").replace(/^images\//i,"").replace(/^\.\//,"");
+  return encodeURI(rootPath);
+}
 
-function renderCars(){const box=document.getElementById("carContainer");if(!box)return;box.innerHTML=cars.map(c=>{const photo=c.photos?.[0]||"images/download.jpg";return `<div class="car-card"><div class="car-photo" style="background-image:url('${esc(photo)}')"><span>${c.seats} SEATER</span></div><div class="car-details"><h2>${esc(c.name)}</h2><p>Comfortable private travel option for Ujjain and nearby pilgrimage routes.</p><div class="prices"><div><small>AC</small><h3>${money(c.ac)}</h3><p>Ujjain → Omkareshwar</p></div><div><small>NON-AC</small><h3>${money(c.nonac)}</h3><p>Ujjain → Omkareshwar</p></div></div><button class="select-btn" onclick="selectCar('${esc(c.id)}')">Select Car</button></div></div>`}).join("");renderVehicleOptions();}
+// Normalize legacy image paths and keep separately uploaded root-level image files working.
+function imagePath(value){
+  const path=String(value||"").trim();
+  if(!path)return "";
+  if(/^(data:|https?:|blob:)/i.test(path))return path;
+  const rootPath=path.replace(/^\.\/?images\//i,"").replace(/^images\//i,"").replace(/^\.\//,"");
+  return encodeURI(rootPath);
+}
+
+
+function renderCars(){const box=document.getElementById("carContainer");if(!box)return;box.innerHTML=cars.map(c=>{const photo=imagePath(c.photos?.[0]||"download.jpg");return `<div class="car-card"><div class="car-photo" style="background-image:url('${esc(photo)}')"><span>${c.seats} SEATER</span></div><div class="car-details"><h2>${esc(c.name)}</h2><p>Comfortable private travel option for Ujjain and nearby pilgrimage routes.</p><div class="prices"><div><small>AC</small><h3>${money(c.ac)}</h3><p>Ujjain → Omkareshwar</p></div><div><small>NON-AC</small><h3>${money(c.nonac)}</h3><p>Ujjain → Omkareshwar</p></div></div><button class="select-btn" onclick="selectCar('${esc(c.id)}')">Select Car</button></div></div>`}).join("");renderVehicleOptions();}
 function renderVehicleOptions(){const v=document.getElementById("vehicle");if(!v)return;const current=v.value;v.innerHTML=cars.map(c=>`<option value="${esc(c.id)}">${esc(c.name)}</option>`).join("");if(cars.some(c=>c.id===current))v.value=current;updateFare();}
 function renderPublicRoutes(){const box=document.getElementById("publicRoutes");const dest=document.getElementById("destination");if(box)box.innerHTML=routes.map((r,i)=>`<div class="route-card"><span>${String(i+1).padStart(2,"0")}</span><h3>${esc(r.name)}</h3><p>${r.oneWay?`One-way from ${money(r.oneWay)}`:"Fare on request"}${r.twoWay?` • Round trip ${money(r.twoWay)}`:""}</p><button class="route-book-btn" data-route-name="${esc(r.name)}">Book this route →</button></div>`).join("");if(dest){const current=dest.value;dest.innerHTML=routes.map(r=>`<option>${esc(r.name)}</option>`).join("")+`<option>Custom Route</option>`;if([...dest.options].some(o=>o.value===current))dest.value=current;}document.querySelectorAll(".route-book-btn").forEach(b=>b.onclick=()=>{if(dest){dest.value=b.dataset.routeName;updateFare()}document.getElementById("booking")?.scrollIntoView({behavior:"smooth"})})}
 function renderPublicPlaces(){
  const box=document.getElementById("ujjainSlider");
  if(!box)return;
- box.innerHTML=places.map(p=>`<article class="place-card"><img src="${esc(p.photo||"images/ujj 1.jpg")}" alt="${esc(p.name)}"><div class="place-info"><span>${esc(p.location||"Ujjain")}</span><h3>${esc(p.name)}</h3><p>${esc(p.description||"")}</p></div></article>`).join("");
+ box.innerHTML=places.map(p=>`<article class="place-card"><img src="${esc(imagePath(p.photo||"ujj 1.jpg"))}" alt="${esc(p.name)}"><div class="place-info"><span>${esc(p.location||"Ujjain")}</span><h3>${esc(p.name)}</h3><p>${esc(p.description||"")}</p></div></article>`).join("");
 }
 function getCar(){return cars.find(c=>c.id===document.getElementById("vehicle")?.value)||cars[0];}
 function calculateFare(route, ac, journeyType){if(!route)return 0;let base=Number(journeyType==="Round Trip"?route.twoWay:route.oneWay)||0;if(base&&ac==="AC")base+=Number(route.extra||0);return base;}
@@ -105,7 +123,7 @@ document.getElementById("logoutAdmin")?.addEventListener("click",()=>{
 });
 function renderAdmin(){
  const box=document.getElementById("adminCarList");
- if(box){box.innerHTML=cars.map(c=>`<div class="admin-car-row"><div class="admin-car-main"><img src="${esc(c.photos?.[0]||"images/download.jpg")}" alt=""><div><b>${esc(c.name)}</b><small>${c.seats} seats • ₹${c.km}/km</small></div></div><label>AC ₹<input type="number" data-id="${c.id}" data-field="ac" value="${c.ac}"></label><label>Non-AC ₹<input type="number" data-id="${c.id}" data-field="nonac" value="${c.nonac}"></label><label>₹/KM <input type="number" data-id="${c.id}" data-field="km" value="${c.km}"></label><label>Photos<input type="file" class="edit-photos" data-id="${c.id}" accept="image/*" multiple></label><button class="admin-save-car" data-id="${c.id}">Save</button><button class="admin-delete-car" data-id="${c.id}" ${cars.length<=1?'disabled':''}>Delete</button></div>`).join("");
+ if(box){box.innerHTML=cars.map(c=>`<div class="admin-car-row"><div class="admin-car-main"><img src="${esc(imagePath(c.photos?.[0]||"download.jpg"))}" alt=""><div><b>${esc(c.name)}</b><small>${c.seats} seats • ₹${c.km}/km</small></div></div><label>AC ₹<input type="number" data-id="${c.id}" data-field="ac" value="${c.ac}"></label><label>Non-AC ₹<input type="number" data-id="${c.id}" data-field="nonac" value="${c.nonac}"></label><label>₹/KM <input type="number" data-id="${c.id}" data-field="km" value="${c.km}"></label><label>Photos<input type="file" class="edit-photos" data-id="${c.id}" accept="image/*" multiple></label><button class="admin-save-car" data-id="${c.id}">Save</button><button class="admin-delete-car" data-id="${c.id}" ${cars.length<=1?'disabled':''}>Delete</button></div>`).join("");
   box.querySelectorAll(".admin-save-car").forEach(b=>b.onclick=()=>{const c=cars.find(x=>x.id===b.dataset.id);box.querySelectorAll(`[data-id="${c.id}"]`).forEach(el=>{if(el.dataset.field)c[el.dataset.field]=Number(el.value)});save();renderCars();renderAdmin();setStatus("Car price/rate updated successfully.")});
   box.querySelectorAll(".admin-delete-car").forEach(b=>b.onclick=()=>{if(confirm("Delete this car?")){cars=cars.filter(x=>x.id!==b.dataset.id);save();renderCars();renderAdmin();setStatus("Car removed.")}});
   box.querySelectorAll(".edit-photos").forEach(inp=>inp.addEventListener("change",e=>{const c=cars.find(x=>x.id===e.target.dataset.id);const files=[...e.target.files];const arr=[];files.forEach(f=>{const r=new FileReader();r.onload=()=>{arr.push(r.result);if(arr.length===files.length){c.photos=arr;save();renderCars();renderAdmin();setStatus("Car photos updated successfully for this browser demo.")}};r.readAsDataURL(f)})}));
@@ -116,7 +134,7 @@ function renderAdmin(){
 function renderPlacesAdmin(){
  const box=document.getElementById("adminPlaces");
  if(!box)return;
- box.innerHTML=places.length?places.map((p,i)=>`<div class="admin-place-row" data-place-row="${esc(p.id)}"><div class="admin-place-preview"><img src="${esc(p.photo||"images/ujj 1.jpg")}" alt=""><div><b>${esc(p.name)}</b><small>${esc(p.location||"Ujjain")}</small></div></div><label>Name<input type="text" data-pfield="name" value="${esc(p.name)}"></label><label>Location<input type="text" data-pfield="location" value="${esc(p.location||"")}"></label><label class="place-desc-field">Description<textarea data-pfield="description" rows="2">${esc(p.description||"")}</textarea></label><label>Change Photo<input type="file" class="edit-place-photo" accept="image/*" data-place="${esc(p.id)}"></label><div class="place-row-actions"><button class="admin-place-save" data-place="${esc(p.id)}">Save Changes</button><button class="admin-place-up" data-place="${esc(p.id)}" ${i===0?'disabled':''}>↑</button><button class="admin-place-down" data-place="${esc(p.id)}" ${i===places.length-1?'disabled':''}>↓</button><button class="admin-place-delete" data-place="${esc(p.id)}">Delete</button></div></div>`).join(""):"<p>No famous places added yet.</p>";
+ box.innerHTML=places.length?places.map((p,i)=>`<div class="admin-place-row" data-place-row="${esc(p.id)}"><div class="admin-place-preview"><img src="${esc(imagePath(p.photo||"ujj 1.jpg"))}" alt=""><div><b>${esc(p.name)}</b><small>${esc(p.location||"Ujjain")}</small></div></div><label>Name<input type="text" data-pfield="name" value="${esc(p.name)}"></label><label>Location<input type="text" data-pfield="location" value="${esc(p.location||"")}"></label><label class="place-desc-field">Description<textarea data-pfield="description" rows="2">${esc(p.description||"")}</textarea></label><label>Change Photo<input type="file" class="edit-place-photo" accept="image/*" data-place="${esc(p.id)}"></label><div class="place-row-actions"><button class="admin-place-save" data-place="${esc(p.id)}">Save Changes</button><button class="admin-place-up" data-place="${esc(p.id)}" ${i===0?'disabled':''}>↑</button><button class="admin-place-down" data-place="${esc(p.id)}" ${i===places.length-1?'disabled':''}>↓</button><button class="admin-place-delete" data-place="${esc(p.id)}">Delete</button></div></div>`).join(""):"<p>No famous places added yet.</p>";
  box.querySelectorAll(".admin-place-save").forEach(btn=>btn.onclick=()=>{const id=btn.dataset.place,p=places.find(x=>x.id===id),row=box.querySelector(`[data-place-row="${id}"]`);if(!p||!row)return;row.querySelectorAll("[data-pfield]").forEach(el=>p[el.dataset.pfield]=el.value.trim());savePlaces();renderPublicPlaces();renderPlacesAdmin();setStatus("Famous place updated successfully.")});
  box.querySelectorAll(".edit-place-photo").forEach(inp=>inp.addEventListener("change",e=>{const f=e.target.files[0],id=e.target.dataset.place,p=places.find(x=>x.id===id);if(!f||!p)return;const r=new FileReader();r.onload=()=>{p.photo=r.result;savePlaces();renderPublicPlaces();renderPlacesAdmin();setStatus("Place photo updated successfully for this browser demo.")};r.readAsDataURL(f)}));
  box.querySelectorAll(".admin-place-delete").forEach(btn=>btn.onclick=()=>{if(places.length<=1){alert("Keep at least one famous place.");return}if(confirm("Delete this famous place?")){places=places.filter(x=>x.id!==btn.dataset.place);savePlaces();renderPublicPlaces();renderPlacesAdmin();setStatus("Famous place removed.")}});
@@ -128,7 +146,7 @@ function renderSettingsAdmin(){document.getElementById("siteName").value=setting
 function renderBookings(){const box=document.getElementById("adminBookings");if(!box)return;box.innerHTML=bookings.length?bookings.slice(0,100).map(b=>`<div class="booking-row"><b>${esc(b.name||b.customer_name)}</b><span>${esc(b.mobile)}</span><span>${esc(b.date||b.booking_date||"")} ${esc(b.time||b.booking_time||"")}</span><span>${esc(b.destination||"")}</span><select data-booking="${b.cloudId||b.id}" class="booking-status"><option ${b.status==="Pending"?"selected":""}>Pending</option><option ${b.status==="Confirmed"?"selected":""}>Confirmed</option><option ${b.status==="Completed"?"selected":""}>Completed</option><option ${b.status==="Cancelled"?"selected":""}>Cancelled</option></select></div>`).join(""):"<p>No bookings yet.</p>";box.querySelectorAll(".booking-status").forEach(s=>s.onchange=async()=>{const b=bookings.find(x=>String(x.cloudId||x.id)===s.dataset.booking);if(b){b.status=s.value;saveBookings();renderStats();setStatus("Booking status updated.")}})}
 function renderStats(){const now=new Date(),today=now.toISOString().slice(0,10),month=now.toISOString().slice(0,7);document.getElementById("statBookings").textContent=bookings.length;document.getElementById("statToday").textContent=bookings.filter(b=>b.createdAt?.slice(0,10)===today).length;document.getElementById("statMonth").textContent=bookings.filter(b=>b.createdAt?.slice(0,7)===month).length}
 function setStatus(t){const x=document.getElementById("adminStatus");if(x)x.textContent=t}
-document.getElementById("addCar")?.addEventListener("click",()=>{const name=document.getElementById("newCarName").value.trim();if(!name){alert("Enter car name.");return}cars.push({id:"car-"+Date.now(),name,seats:Number(document.getElementById("newCarSeats").value)||7,ac:Number(document.getElementById("newCarAC").value)||0,nonac:Number(document.getElementById("newCarNonAC").value)||0,km:Number(document.getElementById("newCarKm").value)||0,photos:pendingPhotos.length?pendingPhotos:["images/download.jpg"]});save();pendingPhotos=[];document.getElementById("newCarPhotos").value="";document.getElementById("newCarPhotoPreview").innerHTML="";renderCars();renderAdmin();setStatus("New car added with uploaded photos.")});
+document.getElementById("addCar")?.addEventListener("click",()=>{const name=document.getElementById("newCarName").value.trim();if(!name){alert("Enter car name.");return}cars.push({id:"car-"+Date.now(),name,seats:Number(document.getElementById("newCarSeats").value)||7,ac:Number(document.getElementById("newCarAC").value)||0,nonac:Number(document.getElementById("newCarNonAC").value)||0,km:Number(document.getElementById("newCarKm").value)||0,photos:pendingPhotos.length?pendingPhotos:["download.jpg"]});save();pendingPhotos=[];document.getElementById("newCarPhotos").value="";document.getElementById("newCarPhotoPreview").innerHTML="";renderCars();renderAdmin();setStatus("New car added with uploaded photos.")});
 document.getElementById("saveContacts")?.addEventListener("click",()=>{const norm=x=>{let n=x.replace(/\D/g,"");if(n.length===10)n="91"+n;return n};contacts={call:norm(document.getElementById("callNumber").value),whatsapp:norm(document.getElementById("whatsappNumber").value),sms:norm(document.getElementById("smsNumber").value)};saveContacts();applyContacts();setStatus("Call, WhatsApp and SMS numbers updated.")});
 let pendingPlacePhoto="";
 document.getElementById("newPlacePhoto")?.addEventListener("change",e=>{const f=e.target.files[0],preview=document.getElementById("newPlacePhotoPreview");pendingPlacePhoto="";if(!f){if(preview)preview.innerHTML="";return}const r=new FileReader();r.onload=()=>{pendingPlacePhoto=r.result;if(preview)preview.innerHTML=`<img src="${r.result}" alt="Preview">`};r.readAsDataURL(f)});

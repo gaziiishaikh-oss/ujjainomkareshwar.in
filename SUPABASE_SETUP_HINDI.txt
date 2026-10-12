@@ -31,3 +31,8 @@ Do not use the service_role/secret key in browser files. Only the publishable ke
 
 SETUP STEP 4 — WEBSITE CONNECTION
 This ZIP does not yet perform the complete cloud sync. Do not expect public/customer pages to change merely after running the SQL. The next code update must connect the site_data rows, booking inserts/admin reads, Storage uploads, and Supabase Auth sign-in/reset to the website's JavaScript, then test each flow before pushing to GitHub Pages.
+
+IMAGE / PHOTO PATH FIX (GITHUB)
+- Photos ko `index.html` ke same main/root level par alag-alag files ke roop mein rakhein; `images` naam ka folder banana zaroori nahi hai.
+- `index.html`, `script.js`, aur `premium-theme.css` ke paths ab root-level photo names use karte hain.
+- Agar photos pehle se GitHub ke main level par hain, to unhe dobara upload karne ki zaroorat nahi; updated code files replace karke commit karein.
