@@ -1,0 +1,18 @@
+UJJAIN OMKRESHWAR TRAVELLERS — V26 UPDATE
+
+Included:
+- Fixed removal of reverse route variants such as “Omkareshwar to Ujjain ₹2400”.
+- A visible fixed Call icon and WhatsApp icon, displayed separately (old CSS could make them overlap). Both use the same default number: +91 98274 30197. The Admin contact form syncs the call number to the WhatsApp number.
+- Admin tools: full JSON backup, CSV booking export, and validated JSON restore.
+- Admin photo uploads are compressed before local storage to reduce browser quota problems.
+- Storage errors now show a clear warning.
+
+Upload instructions:
+1. Extract this ZIP.
+2. Upload/replace the files in the ZIP root into the ROOT of your GitHub Pages repository: index.html, script.js, style.css, premium-theme.css, admin-config.js, and all image files. Do not upload only the ZIP file.
+3. Commit the changes, wait for GitHub Pages to publish, then open the live site and press Ctrl+F5.
+
+IMPORTANT LIMITATION:
+This version runs on static GitHub Pages and stores bookings/content in each visitor/owner browser’s localStorage. A customer booking will open WhatsApp and be stored in the browser which submitted it; it will NOT automatically arrive in a central admin database. Backup/export protects the current browser's records. True shared backend, multi-device admin data, and genuine email OTP require a separately configured cloud database/server with credentials and security rules. Static JavaScript/admin-config credentials are not private; do not use this as a highly secure production login.
+
+Default call and WhatsApp number: +91 98274 30197. Confirm it is the number you supplied for WhatsApp before going live.

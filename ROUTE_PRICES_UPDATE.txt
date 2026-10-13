@@ -1,0 +1,14 @@
+Route price update (13 Oct 2026)
+
+Ujjain ↔ Omkareshwar: Round Trip only — AC ₹4,500; Non-AC ₹4,300.
+Ujjain ↔ Maa Baglamukhi: Round Trip only — AC ₹3,500; Non-AC ₹3,300.
+Ujjain ↔ Maheshwar: Round Trip only — AC ₹5,000; Non-AC ₹4,800.
+Ujjain ↔ Sehore: Round Trip only — AC ₹4,500; Non-AC ₹4,300.
+Ujjain ↔ Indore: Single Trip — AC ₹3,000; Non-AC ₹2,800. Round Trip — AC ₹3,500; Non-AC ₹3,300.
+Indore Airport ↔ Ujjain: Single Trip — AC ₹3,000; Non-AC ₹2,800. Round Trip — AC ₹3,500; Non-AC ₹3,300.
+
+The script updates old saved route prices one time, while preserving other custom routes, bookings, contacts, reviews, settings, and places. It prevents Single Trip for Omkareshwar, Baglamukhi, Maheshwar and Sehore. Static image paths are set for images stored beside index.html in the repository root.
+
+Replace index.html, script.js, and premium-theme.css in the GitHub repository with these versions; keep style.css, admin-config.js and the image files in the root too.
+
+Fix: Removed legacy reverse route "Omkareshwar → Ujjain" and bumped route migration version so existing browsers refresh route pricing.
